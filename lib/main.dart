@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController fullnameController = TextEditingController();
+
+  submitToFireStore() {
+    String phone = phoneController.text;
+    String fullName = fullnameController.text;
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,26 +80,31 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Scaffold(
       appBar: AppBar(title: const Text('Profile page')),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              const TextField(
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  labelText: 'Phone number',
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: Column(
+              children: [
+                TextField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Phone number',
+                  ),
                 ),
-              ),
-              const TextField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Full Name',
+                TextField(
+                  controller: fullnameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Full Name',
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Submit'),
-              )
-            ],
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Submit'),
+                )
+              ],
+            ),
           ),
         ),
       ),
