@@ -72,6 +72,11 @@ class MyCustomFormState extends State<MyCustomForm> {
     String phone = phoneController.text;
     String fullName = fullnameController.text;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    firestore
+        .doc('users/$userId')
+        .set({'user': userId}, SetOptions(merge: true));
   }
 
   @override
@@ -88,19 +93,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                 TextField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Phone number',
                   ),
                 ),
                 TextField(
                   controller: fullnameController,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Full Name',
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => submitToFireStore(),
                   child: const Text('Submit'),
                 )
               ],
